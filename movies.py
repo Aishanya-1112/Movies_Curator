@@ -5,23 +5,81 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
+
+st.set_page_config(layout="wide")
+
+container_style = """
+    <style>
+        .container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #262631;
+            padding: 10px;
+            border-radius: 15px;
+            border: 0.5px solid gray;
+            
+        }
+        .link-button {
+            text-decoration: none;
+            color: white !important;  /* Button color */
+            font-weight: bold;
+            # background-color: transparent !important;
+            border: none !important;
+            cursor: pointer;
+            outline: none !important;
+            
+        }
+        .container:hover {
+            border: 1px solid white;
+            border-radius: 15px;
+            
+        }
+    </style>
+"""
+
+# Apply the CSS style
+st.markdown(container_style, unsafe_allow_html=True)
+
+# Create the container with the link button
+st.markdown("""
+<div class='container'>
+    <a class='link-button' href='https://streamlit.io/gallery'>Log Out</a>
+</div>
+""", unsafe_allow_html=True)
 # CSS for center-aligning the header and styling the line
+page_bg_img = '''
+<style>
+
+[data-testid="stAppViewContainer"] > .main {
+    background-image: url(https://i.ibb.co/RzBDdTn/imp.jpg);
+ 
+    background-position: center;
+   
+    background-attachment: local, fixed;
+}
+
+</style>
+'''
+
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 header_style = """
     <style>
-       body {
-background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fnature%2F&psig=AOvVaw1oTsq5dnOUtKU-XYobt42B&ust=1707849694958000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCKj3zIW6poQDFQAAAAAdAAAAABAE");
-background-size: cover;
-}
-        .header {
+
+     .header {
             color: #fff;
-            text-align: center;
             padding: 0;
+            margin-top: 0;
+            text-align: center;
         }
         .caption {
             color: #fff;
             text-align: center;
             margin-top: 0;
             padding-top: 100px:
+            font-size: 60px;
         }
         .line {
            
@@ -29,12 +87,15 @@ background-size: cover;
             margin-bottom: 20px;
             padding-bottom: 80px;
         }
-       
+        .block-container st-emotion-cache-z5fcl4 ea3mdgi2 {
+            padding: 0;
+        }
+        
+        
+            
     </style>
 """
-
-
-
+# st.set_page_config(layout="wide")
 
 # Adding the CSS to the Streamlit app
 st.markdown(header_style, unsafe_allow_html=True)
@@ -43,7 +104,7 @@ st.markdown(header_style, unsafe_allow_html=True)
 st.markdown("<h1 class='header'>The Curator<span style='color: #f85a40;'>.</span></h1>", unsafe_allow_html=True)
 
 
-st.markdown("<h3 class='caption'>Movie Recommendation Tool</h3>", unsafe_allow_html=True)
+st.markdown("<h1 class='caption'>Movie Recommendation Tool</h1>", unsafe_allow_html=True)
 st.markdown("<div class='line'></div>", unsafe_allow_html=True)
 
 # Load movie data
@@ -87,7 +148,7 @@ def app():
     # st.header("Movie Recommender")
     # st.markdown(selectbox_style, unsafe_allow_html=True)
     # Select a movie the user previously liked
-    selected_value = st.selectbox("Select the Movie you previously liked", movies['title'].values, key='movie_select', help='### Select the movie you previously liked')
+    selected_value = st.selectbox("Select the Movie you previously liked", movies['title'].values, key='movie_select', help='### Utilize the dropdown menu to select a movie and click Show Recommendations to obtain personalized movie suggestions.')
 
     # Show Recommendations button
     if st.button("Show Recommendations"):
@@ -98,16 +159,16 @@ def app():
         for i, (recommendation, poster) in enumerate(zip(recommendations, posters)):
             with locals()[f"col{i + 1}"]:
                 # Use HTML styling to highlight the movie name with a black background and capitalize it
-                st.markdown(f'<div style="background-color: black; padding: 10px; text-align: center; text-transform: uppercase;">{recommendation}</div>', unsafe_allow_html=True)
+                
                 st.image(poster)
                 
                 # Display overview details without an expander
-                st.subheader(f"Overview for {recommendation}")
+                st.subheader(f"{recommendation}")
                 movie_details = get_movie_details(recommendation)
-                st.write("**Overview:**", movie_details['overview'])
-                st.write("**Popularity:**", movie_details['popularity'])
-                st.write("**Release Date:**", movie_details['release_date'])
-                st.write("**Rating:**", movie_details['vote_average'])
+                st.write("*Overview:*", movie_details['overview'])
+                st.write("*Popularity:*", movie_details['popularity'])
+                st.write("*Release Date:*", movie_details['release_date'])
+                st.write("*Rating:*", movie_details['vote_average'])
 
     # Advanced Search options
     # st.subheader("Advanced Search Options:")
@@ -136,10 +197,10 @@ def app():
                 # Display overview details without an expander
                 st.subheader(f"Overview for {recommendation}")
                 movie_details = get_movie_details(recommendation)
-                st.write("**Overview:**", movie_details['overview'])
-                st.write("**Popularity:**", movie_details['popularity'])
-                st.write("**Release Date:**", movie_details['release_date'])
-                st.write("**Rating:**", movie_details['vote_average'])
+                st.write("*Overview:*", movie_details['overview'])
+                st.write("*Popularity:*", movie_details['popularity'])
+                st.write("*Release Date:*", movie_details['release_date'])
+                st.write("*Rating:*", movie_details['vote_average'])
 
 # Run the Streamlit app
 if __name__ == "__main__":
